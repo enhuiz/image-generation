@@ -1,5 +1,5 @@
 """
-A data normalization layer, avoid pre-calculation of data statistics.
+PI controller for beta, https://arxiv.org/pdf/2004.05988.pdf
 
 MIT License
 
@@ -15,10 +15,6 @@ from ....config import cfg
 
 
 class PIC(nn.Module):
-    """
-    https://arxiv.org/pdf/2004.05988.pdf
-    """
-
     def __init__(
         self,
         target: float = cfg.vae_target_kl,
@@ -63,6 +59,6 @@ class PIC(nn.Module):
         # Update the integral
         self.integral.fill_(y - p)
 
-        self.scalar = dict(p=p.item(), i=i.item(), y=y.item())
+        # self.scalar = dict(p=p.item(), i=i.item(), y=y.item())
 
         return y

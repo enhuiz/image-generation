@@ -32,7 +32,7 @@ class Config(ConfigBase):
 
     vae_min_beta: float = 1e-9
     vae_max_beta: float = 1e3
-    vae_target_kl: float = 8
+    vae_target_kl: float = 3
     vae_default_beta: float = 1
     vae_reduction_scale: float = 1e-3
 

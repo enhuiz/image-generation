@@ -5,12 +5,12 @@ from . import discriminators
 
 
 def get_generator():
-    if cfg.generator == "toy":
-        return generators.toy.ToyGenerator(cfg.num_channels)
-    elif cfg.generator == "toy-vae":
-        return generators.vae.toy.ToyVAE(cfg.num_channels)
-    elif cfg.generator == "toy-vae-pic":
-        return generators.vae.toy.ToyVAE(cfg.num_channels, use_pic=True)
+    if cfg.generator == "dc":
+        return generators.dc.DCGenerator(cfg.num_channels)
+    elif cfg.generator == "dc-vae":
+        return generators.vae.dc.DCVAE(cfg.num_channels)
+    elif cfg.generator == "dc-vae-pic":
+        return generators.vae.dc.DCVAE(cfg.num_channels, use_pic=True)
 
     raise NotImplementedError(cfg.generator)
 
@@ -18,7 +18,7 @@ def get_generator():
 def get_discriminator():
     if cfg.discriminator is None:
         return None
-    elif cfg.discriminator == "toy":
-        return discriminators.toy.ToyModel(cfg.num_channels)
+    elif cfg.discriminator == "dc":
+        return discriminators.dc.DCDiscriminator(cfg.num_channels)
 
     raise NotImplementedError(cfg.discriminator)
