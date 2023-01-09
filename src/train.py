@@ -106,7 +106,7 @@ def main():
         real, _ = batch
 
         generator = engines["generator"]
-        discriminator = engines["discriminator"]
+        discriminator = engines.get("discriminator", None)
 
         if name == "generator":
             if diagnostic is None:
@@ -121,12 +121,15 @@ def main():
             fake = generator(real)
             losses = generator.gather_attribute("loss")
 
-            discriminator.freeze()
-            _ = discriminator(fake)
-            losses |= discriminator.gather_attribute("loss")
-            discriminator.unfreeze()
+            if discriminator is None:
+                del fake
+            else:
+                discriminator.freeze()
+                _ = discriminator(fake)
+                losses |= discriminator.gather_attribute("loss")
+                discriminator.unfreeze()
+                fake = fake.detach()
 
-            fake = fake.detach()
         elif name == "discriminator":
             _ = discriminator(fake, real)
             losses = discriminator.gather_attribute("loss")
