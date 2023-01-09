@@ -6,19 +6,19 @@ class ToyGenerator(nn.Module):
     def __init__(self, out_channels=3, num_channels=64):
         super().__init__()
         self.seq = nn.Sequential(
-            nn.Conv2d(1, num_channels, 3, padding=1),
+            nn.Conv2d(1, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
             nn.Upsample(scale_factor=2),
-            nn.Conv2d(num_channels, num_channels, 3, padding=1),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
             nn.Upsample(scale_factor=2),
-            nn.Conv2d(num_channels, num_channels, 3, padding=1),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
             nn.Upsample(scale_factor=2),
-            nn.Conv2d(num_channels, num_channels, 3, padding=1),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
             nn.Conv2d(num_channels, out_channels, 1),

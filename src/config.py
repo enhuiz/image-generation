@@ -30,6 +30,10 @@ class Config(ConfigBase):
 
     constant_lr: float | None = None
 
+    vae_min_beta: float = 1e-9
+    vae_max_beta: float = 1e3
+    vae_target_kl: float = 8
+
     @property
     def warmup_decay_scheduler(self):
         return {

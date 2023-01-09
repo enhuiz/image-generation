@@ -7,6 +7,10 @@ from . import discriminators
 def get_generator():
     if cfg.generator == "toy":
         return generators.toy.ToyGenerator(cfg.num_channels)
+    elif cfg.generator == "toy-dilated-vae":
+        return generators.vae.toy.ToyDilatedVAE(cfg.num_channels)
+    elif cfg.generator == "toy-dilated-vae-pic":
+        return generators.vae.toy.ToyDilatedVAE(cfg.num_channels, use_pic=True)
 
     raise NotImplementedError(cfg.generator)
 

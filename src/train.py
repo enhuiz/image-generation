@@ -154,7 +154,11 @@ def main():
             batch = to_device(batch, cfg.device)
 
             real, _ = batch
-            fake = generator(real)
+
+            if "vae" in cfg.generator:
+                fake = generator(real, use_prior=True)
+            else:
+                fake = generator(real)
 
             for i, ri, fi in zip(counter, real, fake):
                 real = VF.to_pil_image(ri.cpu())

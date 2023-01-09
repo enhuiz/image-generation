@@ -1,0 +1,3 @@
+dataset: cifar
+generator: toy-dilated-vae-pic
+discriminator: null

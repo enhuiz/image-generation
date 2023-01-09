@@ -1,1 +1,1 @@
-from . import toy
+from . import toy, vae
