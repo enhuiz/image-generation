@@ -6,20 +6,20 @@ from torch.distributions import Normal, kl_divergence
 from .pic import PIC
 
 
-class ToyDilatedVAE(nn.Module):
+class ToyVAE(nn.Module):
     def __init__(self, out_channels=3, num_channels=64, use_pic=False):
         super().__init__()
         self.encoder = nn.Sequential(
             nn.Conv2d(out_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
-            nn.Conv2d(num_channels, num_channels, 3, dilation=2, padding=2, bias=False),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
-            nn.Conv2d(num_channels, num_channels, 3, dilation=4, padding=4, bias=False),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
-            nn.Conv2d(num_channels, num_channels, 3, dilation=8, padding=8, bias=False),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
             nn.AdaptiveAvgPool2d((4, 4)),

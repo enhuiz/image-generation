@@ -1,0 +1,3 @@
+dataset: cifar
+generator: toy-vae
+discriminator: toy

@@ -4,20 +4,20 @@ from torch.nn.utils.weight_norm import weight_norm
 from .base import DiscriminatorBase
 
 
-class ToyDilatedModel(DiscriminatorBase):
+class ToyModel(DiscriminatorBase):
     def __init__(self, in_channels=3, num_channels=64):
         super().__init__()
         self.seq = nn.Sequential(
             nn.Conv2d(in_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
-            nn.Conv2d(num_channels, num_channels, 3, dilation=2, padding=2, bias=False),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
-            nn.Conv2d(num_channels, num_channels, 3, dilation=4, padding=4, bias=False),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
-            nn.Conv2d(num_channels, num_channels, 3, dilation=8, padding=8, bias=False),
+            nn.Conv2d(num_channels, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
             nn.Conv2d(num_channels, 1, 1),
