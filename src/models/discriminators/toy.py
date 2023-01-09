@@ -1,5 +1,5 @@
 from torch import nn
-from torch.nn.utils.spectral_norm import spectral_norm
+from torch.nn.utils.weight_norm import weight_norm
 
 from .base import DiscriminatorBase
 
@@ -24,7 +24,7 @@ class ToyDilatedModel(DiscriminatorBase):
         )
 
         self.apply(
-            lambda m: (lambda _: None)(spectral_norm(m))
+            lambda m: (lambda _: None)(weight_norm(m))
             if isinstance(m, nn.Conv2d)
             else None
         )
