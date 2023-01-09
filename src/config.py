@@ -7,7 +7,7 @@ from .utils.config import Config as ConfigBase
 @dataclass(frozen=True)
 class Config(ConfigBase):
     data_dir: Path = Path("data")
-    dataset: str = "cifar"
+    dataset: str = "cifar10"
 
     @property
     def num_channels(self):
@@ -34,6 +34,7 @@ class Config(ConfigBase):
     vae_max_beta: float = 1e3
     vae_target_kl: float = 8
     vae_default_beta: float = 1
+    vae_reduction_scale: float = 1e-3
 
     @property
     def warmup_decay_scheduler(self):

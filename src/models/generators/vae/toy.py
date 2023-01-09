@@ -63,12 +63,12 @@ class ToyVAE(nn.Module):
             σ = logσ.exp()
             q = Normal(μ, σ)
             p = Normal(torch.zeros_like(μ), torch.ones_like(σ))
-            kl = self._reduce(kl_divergence(q, p))
+            kl = self._reduce(kl_divergence(q, p), scale=False)
             if self.use_pic:
                 beta = self.pic(kl)
             else:
                 beta = cfg.vae_default_beta
-            self.loss["kl"] = beta * kl
+            self.loss["kl"] = cfg.vae_reduction_scale * beta * kl
             self.scalar["kl"] = kl.item()
             z = q.rsample()
 
@@ -78,6 +78,9 @@ class ToyVAE(nn.Module):
 
         return h
 
-    def _reduce(self, x):
+    def _reduce(self, x, scale=True):
         # Sum all but average batch
-        return x.flatten(1).sum(1).mean()
+        x = x.flatten(1).sum(1).mean()
+        if scale:
+            x = cfg.vae_reduction_scale * x
+        return x

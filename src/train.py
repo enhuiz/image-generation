@@ -53,7 +53,7 @@ def main():
 
     if cfg.dataset.lower() == "mnist":
         Dataset = MNIST
-    elif cfg.dataset.lower() == "cifar":
+    elif cfg.dataset.lower() == "cifar10":
         Dataset = CIFAR10
     else:
         raise NotImplementedError(cfg.dataset)
