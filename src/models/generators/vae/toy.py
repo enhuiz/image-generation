@@ -79,5 +79,5 @@ class ToyVAE(nn.Module):
         return h
 
     def _reduce(self, x):
-        # Sum all channels, average over batch and locations
-        return x.sum(dim=1).mean()
+        # Sum all but average batch
+        return x.flatten(1).sum(1).mean()
