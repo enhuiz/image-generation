@@ -6,6 +6,7 @@ class ToyGenerator(nn.Module):
     def __init__(self, out_channels=3, num_channels=64):
         super().__init__()
         self.seq = nn.Sequential(
+            nn.Upsample(scale_factor=2),
             nn.Conv2d(1, num_channels, 3, padding=1, bias=False),
             nn.BatchNorm2d(num_channels),
             nn.GELU(),
@@ -25,7 +26,7 @@ class ToyGenerator(nn.Module):
         )
 
     def forward(self, x):
-        z = torch.randn(len(x), 1, 4, 4, device=x.device)
+        z = torch.randn(len(x), 1, 2, 2, device=x.device)
         del x
         x = self.seq(z)  # 32x32
         return x
