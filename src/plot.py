@@ -51,6 +51,10 @@ def plot(paths, args):
             if gdf[y].isna().all():
                 continue
 
+            names = gdf["name"].unique()
+            assert len(names) == 1, "One group should have at most 1 name."
+            linestyle = dict(train_200="--", test="-").get(names[0], "-.")
+
             gdf.plot(
                 x="global_step",
                 y=y,
@@ -58,6 +62,7 @@ def plot(paths, args):
                 ax=plt.gca(),
                 marker="x" if len(gdf) < 100 else None,
                 alpha=0.7,
+                linestyle=linestyle,
             )
 
     plt.gca().legend(
