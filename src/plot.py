@@ -53,7 +53,7 @@ def plot(paths, args):
 
             names = gdf["name"].unique()
             assert len(names) == 1, "One group should have at most 1 name."
-            linestyle = dict(train_200="--", test="-").get(names[0], "-.")
+            linestyle = dict(train_200="-", test="--").get(names[0], "-.")
 
             gdf.plot(
                 x="global_step",
