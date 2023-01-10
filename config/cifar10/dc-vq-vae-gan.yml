@@ -1,0 +1,3 @@
+dataset: cifar10
+generator: dc-vq-vae
+discriminator: dc
