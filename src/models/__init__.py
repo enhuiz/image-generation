@@ -9,6 +9,8 @@ def get_generator():
         return generators.dc.DCGenerator(cfg.num_channels)
     elif cfg.generator == "dc-vae":
         return generators.vae.dc.DCVAE(cfg.num_channels)
+    elif cfg.generator == "dc-vq-vae":
+        return generators.vae.dcvq.DCVQVAE(cfg.num_channels)
     elif cfg.generator == "dc-vae-pic":
         return generators.vae.dc.DCVAE(cfg.num_channels, use_pic=True)
 

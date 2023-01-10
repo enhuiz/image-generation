@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -35,6 +36,11 @@ class Config(ConfigBase):
     vae_target_kl: float = 3
     vae_default_beta: float = 1
     vae_reduction_scale: float = 1e-3
+    vae_code_dim: int = 32
+
+    @property
+    def vae_num_quants(self):
+        return round(math.exp(self.vae_target_kl))
 
     @property
     def warmup_decay_scheduler(self):
