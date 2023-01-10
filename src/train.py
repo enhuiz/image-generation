@@ -170,6 +170,7 @@ def main():
                 fake = generator(real)
 
             fake_unnorm = normalizer.denormalize(fake)
+            fake_unnorm = fake_unnorm.clamp(0, 1)  # Fix saturation error
             del real, fake
 
             for i, ri, fi in zip(counter, real_unnorm, fake_unnorm):
