@@ -4,10 +4,11 @@ import torch
 import torch.nn.functional as F
 from einops import rearrange
 from torch import nn
-from torch.distributions import RelaxedOneHotCategorical, Categorical
+from torch.distributions import Categorical, RelaxedOneHotCategorical
 
 from ....config import cfg
 from ....utils.trainer import get_iteration
+from .perceptual import PerceptualLoss
 
 
 class DCVQVAE(nn.Module):
@@ -54,6 +55,9 @@ class DCVQVAE(nn.Module):
                 nn.Tanh(),
             ),
         )
+
+        if cfg.vae_use_perceptual:
+            self.perceptual = PerceptualLoss()
 
     @property
     def tau(self):
@@ -102,6 +106,9 @@ class DCVQVAE(nn.Module):
         h = self.decoder(z) * 3  # [-3, 3]
 
         self.loss["mse"] = self._reduce(F.mse_loss(h, x, reduction="none"))
+
+        if cfg.vae_use_perceptual:
+            self.loss["perceptual"] = self.perceptual(h, x)
 
         return h
 

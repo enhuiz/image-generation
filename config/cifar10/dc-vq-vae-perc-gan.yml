@@ -1,0 +1,4 @@
+dataset: cifar10
+generator: dc-vq-vae
+discriminator: dc
+vae_use_perceptual: true

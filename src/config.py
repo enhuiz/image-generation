@@ -38,6 +38,7 @@ class Config(ConfigBase):
     vae_default_beta: float = 1
     vae_reduction_scale: float = 1e-3
     vae_code_dim: int = 32
+    vae_use_perceptual: bool = False
 
     @property
     def vae_num_quants(self):

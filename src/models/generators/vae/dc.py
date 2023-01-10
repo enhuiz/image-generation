@@ -6,6 +6,7 @@ from torch import nn
 from torch.distributions import Normal, kl_divergence
 
 from ....config import cfg
+from .perceptual import PerceptualLoss
 from .pic import PIC
 
 
@@ -57,6 +58,9 @@ class DCVAE(nn.Module):
 
         self.use_pic = use_pic
 
+        if cfg.vae_use_perceptual:
+            self.perceptual = PerceptualLoss()
+
     def forward(self, x, use_prior=False):
         self.loss = {}
         self.scalar = {}
@@ -81,6 +85,9 @@ class DCVAE(nn.Module):
         h = self.decoder(z) * 3  # [-3, 3]
 
         self.loss["mse"] = self._reduce(F.mse_loss(h, x, reduction="none"))
+
+        if cfg.vae_use_perceptual:
+            self.loss["perceptual"] = self.perceptual(h, x)
 
         return h
 

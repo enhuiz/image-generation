@@ -40,7 +40,7 @@ class Vgg19(nn.ModuleList):
 
 
 class PerceptualFeatures(nn.Module):
-    def __init__(self, scales=[1, 0.5, 0.25]):
+    def __init__(self, scales=[1, 0.5]):
         super().__init__()
         self.scales = scales
         self.vgg19 = Vgg19()
