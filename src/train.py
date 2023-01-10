@@ -16,6 +16,7 @@ from tqdm import tqdm
 from .config import cfg
 from .fid import compute_fid
 from .models import get_discriminator, get_generator
+from .normalizer import Normalizer
 from .utils import Diagnostic, setup_logging, to_device, trainer
 
 _logger = logging.getLogger(__name__)
@@ -23,6 +24,7 @@ _logger = logging.getLogger(__name__)
 
 def load_engines():
     generator = get_generator()
+    generator.normalizer = Normalizer(num_channels=3, axis=1)
 
     engines = dict(
         generator=trainer.Engine(
@@ -103,10 +105,12 @@ def main():
     def train_feeder(engines, batch, name):
         nonlocal diagnostic, fake
 
-        real, _ = batch
-
         generator = engines["generator"]
+        normalizer = generator.normalizer
         discriminator = engines.get("discriminator", None)
+
+        real_unnorm, _ = batch
+        real = normalizer(real_unnorm)
 
         if name == "generator":
             if diagnostic is None:
@@ -150,20 +154,25 @@ def main():
         log_dir = cfg.log_dir / str(engines.global_step) / name
 
         generator = engines["generator"]
+        normalizer = generator.normalizer
 
         counter = count()
 
         for batch in tqdm(dl):
             batch = to_device(batch, cfg.device)
 
-            real, _ = batch
+            real_unnorm, _ = batch
+            real = normalizer(real_unnorm)
 
             if "vae" in cfg.generator:
                 fake = generator(real, use_prior=True)
             else:
                 fake = generator(real)
 
-            for i, ri, fi in zip(counter, real, fake):
+            fake_unnorm = normalizer.denormalize(fake)
+            del real, fake
+
+            for i, ri, fi in zip(counter, real_unnorm, fake_unnorm):
                 real = VF.to_pil_image(ri.cpu())
                 real_path = log_dir / "real" / f"{i:06d}.png"
                 real_path.parent.mkdir(parents=True, exist_ok=True)

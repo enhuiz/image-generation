@@ -45,7 +45,12 @@ class DCVAE(nn.Module):
                 )
             )
 
-        self.decoder.append(nn.Conv2d(rc[-2], rc[-1], 1))
+        self.decoder.append(
+            nn.Sequential(
+                nn.Conv2d(rc[-2], rc[-1], 1),
+                nn.Tanh(),
+            ),
+        )
 
         if use_pic:
             self.pic = PIC()
@@ -73,7 +78,7 @@ class DCVAE(nn.Module):
             self.scalar["beta"] = beta
             z = q.rsample()
 
-        h = self.decoder(z)
+        h = self.decoder(z) * 3  # [-3, 3]
 
         self.loss["mse"] = self._reduce(F.mse_loss(h, x, reduction="none"))
 

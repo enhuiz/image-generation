@@ -24,10 +24,15 @@ class DCGenerator(nn.Module):
                 )
             )
 
-        self.decoder.append(nn.Conv2d(rc[-2], rc[-1], 1))
+        self.decoder.append(
+            nn.Sequential(
+                nn.Conv2d(rc[-2], rc[-1], 1),
+                nn.Tanh(),
+            ),
+        )
 
     def forward(self, x):
         z = torch.randn(len(x), 1, 2, 2, device=x.device)
         del x
-        x = self.decoder(z)  # 32x32
-        return x
+        h = self.decoder(z) * 3  # 32x32, [-3, 3]
+        return h

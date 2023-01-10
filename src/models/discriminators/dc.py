@@ -1,7 +1,7 @@
 import math
 
 from torch import nn
-from torch.nn.utils.weight_norm import weight_norm
+from torch.nn.utils.spectral_norm import spectral_norm
 
 from .base import DiscriminatorBase
 
@@ -18,13 +18,17 @@ class DCDiscriminator(DiscriminatorBase):
         for i in range(num_layers):
             self.encoder.append(
                 nn.Sequential(
-                    nn.Conv2d(c[i], c[i + 1], 3),
+                    nn.Conv2d(c[i], c[i + 1], 3, padding=1, bias=False),
+                    nn.BatchNorm2d(c[i + 1]),
                     nn.GELU(),
+                    nn.AvgPool2d(3, 2),
                 )
             )
 
+        self.encoder.append(nn.Conv2d(c[-1], 1, 1))
+
         self.apply(
-            lambda m: (lambda _: None)(weight_norm(m))
+            lambda m: (lambda _: None)(spectral_norm(m))
             if isinstance(m, nn.Conv2d)
             else None
         )
