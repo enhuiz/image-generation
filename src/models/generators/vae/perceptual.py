@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from torch import Tensor, nn
+from torch import nn
 from torchvision.models import vgg19
 
 
@@ -22,16 +22,10 @@ class Vgg19(nn.ModuleList):
             ]
         )
 
-        self.mean: Tensor
-        self.std: Tensor
-        self.register_buffer("mean", torch.tensor([0.485, 0.456, 0.406]))
-        self.register_buffer("std", torch.tensor([0.229, 0.224, 0.225]))
-
         for p in self.parameters():
             p.requires_grad_(False)
 
     def forward(self, x):
-        x = (x - self.mean[None, :, None, None]) / self.std[None, :, None, None]
         out = []
         for slice in self.slices:
             x = slice(x)
