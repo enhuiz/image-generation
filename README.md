@@ -18,8 +18,8 @@ Compare some image generation models.
 
 | path                                       | split     |  step |     fid |
 | :----------------------------------------- | :-------- | ----: | ------: |
-| logs/cifar10/dc-vq-vae-perc-gan/1673343916 | train_200 | 10000 | 200.845 |
 | logs/cifar10/dc-vq-vae-gan/1673339840      | train_200 | 10000 | 205.634 |
+| logs/cifar10/dc-vq-vae-perc-gan/1673404674 | train_200 | 10000 | 205.701 |
 | logs/cifar10/dc-vae-pic-gan/1673335478     | train_200 | 10000 | 220.968 |
 | logs/cifar10/dc-vae-gan/1673341055         | train_200 | 10000 | 223.802 |
 | logs/cifar10/dc-gan/1673336477             | train_200 |  8000 | 233.425 |
@@ -31,7 +31,7 @@ Compare some image generation models.
 
 | path                                       | split |  step |     fid |
 | :----------------------------------------- | :---- | ----: | ------: |
-| logs/cifar10/dc-vq-vae-perc-gan/1673343916 | test  | 10000 | 114.301 |
+| logs/cifar10/dc-vq-vae-perc-gan/1673404674 | test  | 10000 | 114.352 |
 | logs/cifar10/dc-vq-vae-gan/1673339840      | test  |  8000 | 116.086 |
 | logs/cifar10/dc-vae-pic-gan/1673335478     | test  | 10000 | 150.127 |
 | logs/cifar10/dc-vae-gan/1673341055         | test  | 10000 | 158.812 |
